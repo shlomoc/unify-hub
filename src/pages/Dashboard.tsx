@@ -21,7 +21,7 @@ const Dashboard = () => {
             <HomeIcon className="w-4 h-4" />
             Overview
           </Button>
-          <Button variant="ghost" className="w-full justify-start gap-2">
+          <Button variant="ghost" className="w-full justify-start gap-2" onClick={() => navigate("/api-playground")}>
             <CodeIcon className="w-4 h-4" />
             API Playground
           </Button>

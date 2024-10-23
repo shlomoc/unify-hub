@@ -19,7 +19,13 @@ const Index = () => {
           <a href="#features" className="text-gray-600 hover:text-gray-900">Features</a>
           <a href="#pricing" className="text-gray-600 hover:text-gray-900">Pricing</a>
           <a href="#about" className="text-gray-600 hover:text-gray-900">About</a>
-          <a href="#docs" className="text-gray-600 hover:text-gray-900">Dashboards</a>
+          <Button 
+            variant="ghost" 
+            className="text-gray-600 hover:text-gray-900"
+            onClick={() => navigate("/dashboard")}
+          >
+            Dashboards
+          </Button>
           <Avatar className="h-8 w-8">
             <div className="bg-blue-500 text-white w-full h-full flex items-center justify-center">
               S
