@@ -4,10 +4,26 @@ import { HomeIcon, CodeIcon, FileTextIcon, ScrollTextIcon, ChevronLeftIcon, Chev
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/lib/supabase";
+import { useToast } from "@/components/ui/use-toast";
 
 export const Sidebar = () => {
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
+  const { toast } = useToast();
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      navigate("/");
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to sign out. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <aside className={cn(
@@ -91,7 +107,7 @@ export const Sidebar = () => {
         <Button 
           variant="destructive" 
           className="w-full" 
-          onClick={() => navigate("/")}
+          onClick={handleLogout}
         >
           {collapsed ? "×" : "Logout"}
         </Button>
