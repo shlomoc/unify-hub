@@ -1,57 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Avatar } from "@/components/ui/avatar";
-import { HomeIcon, CodeIcon, FileTextIcon, ScrollTextIcon } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Sidebar } from "@/components/Sidebar";
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white border-r p-6">
-        <div className="flex items-center gap-2 mb-8">
-          <h1 className="text-xl font-bold">Dani AI</h1>
-        </div>
-        
-        <nav className="space-y-2">
-          <Button variant="ghost" className="w-full justify-start gap-2" onClick={() => navigate("/dashboard")}>
-            <HomeIcon className="w-4 h-4" />
-            Overview
-          </Button>
-          <Button variant="ghost" className="w-full justify-start gap-2" onClick={() => navigate("/api-playground")}>
-            <CodeIcon className="w-4 h-4" />
-            API Playground
-          </Button>
-          <Button variant="ghost" className="w-full justify-start gap-2">
-            <FileTextIcon className="w-4 h-4" />
-            Invoices
-          </Button>
-          <Button variant="ghost" className="w-full justify-start gap-2">
-            <ScrollTextIcon className="w-4 h-4" />
-            Documentation
-          </Button>
-        </nav>
-
-        <div className="mt-auto pt-6 border-t">
-          <div className="flex items-center gap-3 mb-4">
-            <Avatar>
-              <div className="bg-purple-500 text-white w-full h-full flex items-center justify-center">
-                S
-              </div>
-            </Avatar>
-            <div>
-              <p className="font-medium">steve c</p>
-            </div>
-          </div>
-          <Button variant="destructive" className="w-full" onClick={() => navigate("/")}>
-            Logout
-          </Button>
-        </div>
-      </aside>
-
+      <Sidebar />
+      
       {/* Main Content */}
       <main className="flex-1 p-8">
         <div className="max-w-6xl mx-auto">
