@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
-import { GitHubLogoIcon, StarIcon, GitPullRequestIcon, UpdateIcon } from "@radix-ui/react-icons";
+import { Github, Star, GitPullRequest, RefreshCw } from "lucide-react";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const Index = () => {
       {/* Navigation */}
       <nav className="flex justify-between items-center p-4 max-w-7xl mx-auto">
         <div className="flex items-center gap-2">
-          <GitHubLogoIcon className="w-6 h-6" />
+          <Github className="w-6 h-6" />
           <span className="font-semibold">Dani Github Analyzer</span>
         </div>
         <div className="flex items-center gap-6">
@@ -49,17 +49,17 @@ const Index = () => {
         <h2 className="text-4xl font-bold text-center mb-12 text-blue-500">Key Features</h2>
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           <Card className="p-6">
-            <StarIcon className="w-8 h-8 mb-4 text-blue-500" />
+            <Star className="w-8 h-8 mb-4 text-blue-500" />
             <h3 className="text-xl font-semibold mb-2">Repository Insights</h3>
             <p className="text-gray-600">Get comprehensive summaries and analytics for any GitHub repository.</p>
           </Card>
           <Card className="p-6">
-            <GitPullRequestIcon className="w-8 h-8 mb-4 text-blue-500" />
+            <GitPullRequest className="w-8 h-8 mb-4 text-blue-500" />
             <h3 className="text-xl font-semibold mb-2">Important PRs</h3>
             <p className="text-gray-600">Track and analyze the most impactful pull requests in real-time.</p>
           </Card>
           <Card className="p-6">
-            <UpdateIcon className="w-8 h-8 mb-4 text-blue-500" />
+            <RefreshCw className="w-8 h-8 mb-4 text-blue-500" />
             <h3 className="text-xl font-semibold mb-2">Version Updates</h3>
             <p className="text-gray-600">Stay informed about the latest version releases and changelogs.</p>
           </Card>
