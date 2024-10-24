@@ -5,12 +5,26 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { Sidebar } from "@/components/Sidebar";
+import { supabase } from "@/lib/supabase";
 
 const APIPlayground = () => {
   const [apiKey, setApiKey] = useState("");
-  const [githubUrl, setGithubUrl] = useState("");
+  const [githubUrl, setGithubUrl] = useState("https://github.com/emarco177/dandi");
   const [response, setResponse] = useState<string>("");
   const { toast } = useToast();
+
+  const validateApiKey = async (key: string) => {
+    const { data, error } = await supabase
+      .from('api_key')
+      .select('value')
+      .eq('value', key)
+      .single();
+    
+    if (error || !data) {
+      return false;
+    }
+    return true;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,6 +34,18 @@ const APIPlayground = () => {
         title: "Error",
         description: "Please fill in all fields",
         variant: "destructive",
+        duration: 3000,
+      });
+      return;
+    }
+
+    const isValidKey = await validateApiKey(apiKey);
+    if (!isValidKey) {
+      toast({
+        title: "Error",
+        description: "Invalid API key",
+        variant: "destructive",
+        duration: 3000,
       });
       return;
     }
@@ -42,6 +68,7 @@ const APIPlayground = () => {
     toast({
       title: "Success",
       description: "Repository analysis completed",
+      duration: 3000,
     });
   };
 
