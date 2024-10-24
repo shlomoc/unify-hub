@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Eye, Copy, Pencil, Trash2, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/lib/supabase";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { APIKeyRow } from "./api-key/APIKeyRow";
+import { CreateKeyDialog } from "./api-key/CreateKeyDialog";
 
 interface APIKey {
   id: string;
@@ -123,64 +125,14 @@ export const APIKeyManager = () => {
     }
   };
 
-  const copyToClipboard = async (value: string) => {
-    try {
-      await navigator.clipboard.writeText(value);
-      toast({
-        title: "Success",
-        description: "API key copied to clipboard",
-      });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to copy API key",
-        variant: "destructive",
-      });
-    }
-  };
-
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">API Keys</h2>
-        <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="mr-2 h-4 w-4" />
-              Create New Key
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Create a new API key</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4 py-4">
-              <div className="space-y-2">
-                <label>Key Name</label>
-                <Input
-                  value={newKeyName}
-                  onChange={(e) => setNewKeyName(e.target.value)}
-                  placeholder="Enter key name"
-                />
-              </div>
-              <div className="space-y-2">
-                <label>Request Limit</label>
-                <Input
-                  type="number"
-                  value={newKeyLimit}
-                  onChange={(e) => setNewKeyLimit(e.target.value)}
-                  placeholder="Enter request limit"
-                />
-              </div>
-            </div>
-            <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setIsCreateOpen(false)}>
-                Cancel
-              </Button>
-              <Button onClick={handleCreateKey}>Create</Button>
-            </div>
-          </DialogContent>
-        </Dialog>
+        <Button onClick={() => setIsCreateOpen(true)}>
+          <Plus className="mr-2 h-4 w-4" />
+          Create New Key
+        </Button>
       </div>
 
       <div className="space-y-4">
@@ -198,54 +150,30 @@ export const APIKeyManager = () => {
             </thead>
             <tbody>
               {apiKeys?.map((key) => (
-                <tr key={key.id}>
-                  <td className="py-2">{key.name}</td>
-                  <td>{key.usage}</td>
-                  <td>{key.value.replace(/(?<=^.{4}).*(?=.{4}$)/g, '*'.repeat(20))}</td>
-                  <td className="space-x-2">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => {
-                        toast({
-                          title: "API Key",
-                          description: key.value,
-                        });
-                      }}
-                    >
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => copyToClipboard(key.value)}
-                    >
-                      <Copy className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => {
-                        setEditingKey(key);
-                        setIsEditOpen(true);
-                      }}
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleDeleteKey(key.id)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </td>
-                </tr>
+                <APIKeyRow
+                  key={key.id}
+                  apiKey={key}
+                  onEdit={(key) => {
+                    setEditingKey(key);
+                    setIsEditOpen(true);
+                  }}
+                  onDelete={handleDeleteKey}
+                />
               ))}
             </tbody>
           </table>
         )}
       </div>
+
+      <CreateKeyDialog
+        isOpen={isCreateOpen}
+        onOpenChange={setIsCreateOpen}
+        newKeyName={newKeyName}
+        setNewKeyName={setNewKeyName}
+        newKeyLimit={newKeyLimit}
+        setNewKeyLimit={setNewKeyLimit}
+        onCreateKey={handleCreateKey}
+      />
 
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
         <DialogContent>
