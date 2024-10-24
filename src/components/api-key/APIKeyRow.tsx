@@ -23,6 +23,7 @@ export const APIKeyRow = ({ apiKey, onEdit, onDelete }: APIKeyRowProps) => {
     toast({
       title: "API Key",
       description: apiKey.value,
+      duration: 5000,
     });
   };
 
@@ -32,12 +33,14 @@ export const APIKeyRow = ({ apiKey, onEdit, onDelete }: APIKeyRowProps) => {
       toast({
         title: "Success",
         description: "API key copied to clipboard",
+        duration: 3000,
       });
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to copy API key",
         variant: "destructive",
+        duration: 3000,
       });
     }
   };
