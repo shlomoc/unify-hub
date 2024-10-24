@@ -12,7 +12,7 @@ interface APIKey {
   name: string;
   value: string;
   usage: number;
-  limit: number;
+  request_limit: number;
 }
 
 export const APIKeyManager = () => {
@@ -47,7 +47,7 @@ export const APIKeyManager = () => {
         name: newKeyName,
         value: newKey,
         usage: 0,
-        limit: parseInt(newKeyLimit),
+        request_limit: parseInt(newKeyLimit),
         user_id: session.session?.user.id
       });
 
@@ -164,12 +164,12 @@ export const APIKeyManager = () => {
                 />
               </div>
               <div className="space-y-2">
-                <label>Key Limit</label>
+                <label>Request Limit</label>
                 <Input
                   type="number"
                   value={newKeyLimit}
                   onChange={(e) => setNewKeyLimit(e.target.value)}
-                  placeholder="Enter key limit"
+                  placeholder="Enter request limit"
                 />
               </div>
             </div>
