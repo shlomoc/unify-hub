@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { Sidebar } from "@/components/Sidebar";
 import { supabase } from "@/lib/supabase";
+import { fetchReadmeContent } from "@/utils/github";
 
 const APIPlayground = () => {
   const [apiKey, setApiKey] = useState("");
@@ -75,27 +76,24 @@ const APIPlayground = () => {
       return;
     }
 
-    // Mock response for now
-    const mockResponse = {
-      summary: "Dandi API is a comprehensive boilerplate repository for building AI-powered micro SaaS applications.",
-      cool_facts: [
-        "The project was developed using Cursor IDE and v0.",
-        "It leverages LangChain JS for AI capabilities."
-      ],
-      stars: 10,
-      latestVersion: "No releases found",
-      websiteUrl: "https://www.dandi.cloud",
-      licenseType: "Apache-2.0"
-    };
-
-    setResponse(JSON.stringify(mockResponse, null, 2));
-    await incrementUsageCount(apiKey);
-    
-    toast({
-      title: "Success",
-      description: "Repository analysis completed",
-      duration: 3000,
-    });
+    try {
+      const readmeContent = await fetchReadmeContent(githubUrl);
+      setResponse(readmeContent);
+      await incrementUsageCount(apiKey);
+      
+      toast({
+        title: "Success",
+        description: "Repository README fetched successfully",
+        duration: 3000,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to fetch repository data",
+        variant: "destructive",
+        duration: 3000,
+      });
+    }
   };
 
   return (
