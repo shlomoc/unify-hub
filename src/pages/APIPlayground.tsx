@@ -28,13 +28,26 @@ const APIPlayground = () => {
   };
 
   const incrementUsageCount = async (key: string) => {
-    const { error } = await supabase
+    // First get the current usage count
+    const { data: currentData, error: fetchError } = await supabase
       .from('api_key')
-      .update({ usage: supabase.rpc('increment_usage') })
+      .select('usage')
+      .eq('value', key)
+      .single();
+
+    if (fetchError) {
+      console.error('Error fetching current usage:', fetchError);
+      return;
+    }
+
+    // Then increment it by 1
+    const { error: updateError } = await supabase
+      .from('api_key')
+      .update({ usage: (currentData?.usage || 0) + 1 })
       .eq('value', key);
 
-    if (error) {
-      console.error('Error incrementing usage count:', error);
+    if (updateError) {
+      console.error('Error incrementing usage count:', updateError);
     }
   };
 
