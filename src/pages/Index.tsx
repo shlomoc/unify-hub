@@ -3,9 +3,47 @@ import { Avatar } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { Github, Star, GitPullRequest, RefreshCw } from "lucide-react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
+import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAuthenticated(!!session);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleAuthAction = async () => {
+    if (isAuthenticated) {
+      try {
+        await supabase.auth.signOut();
+        navigate("/");
+        toast({
+          title: "Success",
+          description: "Signed out successfully",
+        });
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to sign out",
+          variant: "destructive",
+        });
+      }
+    } else {
+      navigate("/login");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white">
@@ -19,19 +57,25 @@ const Index = () => {
           <a href="#features" className="text-gray-600 hover:text-gray-900">Features</a>
           <a href="#pricing" className="text-gray-600 hover:text-gray-900">Pricing</a>
           <a href="#about" className="text-gray-600 hover:text-gray-900">About</a>
-          <Button 
-            variant="ghost" 
-            className="text-gray-600 hover:text-gray-900"
-            onClick={() => navigate("/dashboard")}
-          >
-            Dashboards
+          {isAuthenticated && (
+            <Button 
+              variant="ghost" 
+              className="text-gray-600 hover:text-gray-900"
+              onClick={() => navigate("/dashboard")}
+            >
+              Dashboard
+            </Button>
+          )}
+          {isAuthenticated && (
+            <Avatar className="h-8 w-8">
+              <div className="bg-blue-500 text-white w-full h-full flex items-center justify-center">
+                S
+              </div>
+            </Avatar>
+          )}
+          <Button variant="ghost" onClick={handleAuthAction}>
+            {isAuthenticated ? "Sign Out" : "Sign In"}
           </Button>
-          <Avatar className="h-8 w-8">
-            <div className="bg-blue-500 text-white w-full h-full flex items-center justify-center">
-              S
-            </div>
-          </Avatar>
-          <Button variant="ghost" onClick={() => navigate("/dashboard")}>Sign Out</Button>
         </div>
       </nav>
 
