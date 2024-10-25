@@ -17,13 +17,14 @@ const APIPlayground = () => {
     const { data, error } = await supabase
       .from('api_key')
       .select('value')
-      .eq('value', key)
-      .single();
+      .eq('value', key);
     
-    if (error || !data) {
+    if (error) {
+      console.error('Error validating API key:', error);
       return false;
     }
-    return true;
+    
+    return data && data.length > 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
