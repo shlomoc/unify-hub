@@ -27,6 +27,17 @@ const APIPlayground = () => {
     return data && data.length > 0;
   };
 
+  const incrementUsageCount = async (key: string) => {
+    const { error } = await supabase
+      .from('api_key')
+      .update({ usage: supabase.rpc('increment_usage') })
+      .eq('value', key);
+
+    if (error) {
+      console.error('Error incrementing usage count:', error);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -65,6 +76,7 @@ const APIPlayground = () => {
     };
 
     setResponse(JSON.stringify(mockResponse, null, 2));
+    await incrementUsageCount(apiKey);
     
     toast({
       title: "Success",
