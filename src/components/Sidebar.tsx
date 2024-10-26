@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 import { HomeIcon, CodeIcon, FileTextIcon, ScrollTextIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
@@ -10,7 +10,18 @@ import { useToast } from "@/components/ui/use-toast";
 export const Sidebar = () => {
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
+  const [userEmail, setUserEmail] = useState<string>("");
   const { toast } = useToast();
+
+  useEffect(() => {
+    const getUserEmail = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user?.email) {
+        setUserEmail(session.user.email);
+      }
+    };
+    getUserEmail();
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -95,12 +106,12 @@ export const Sidebar = () => {
         )}>
           <Avatar>
             <div className="bg-purple-500 text-white w-full h-full flex items-center justify-center">
-              S
+              {userEmail ? userEmail[0].toUpperCase() : "?"}
             </div>
           </Avatar>
           {!collapsed && (
             <div>
-              <p className="font-medium">steve c</p>
+              <p className="font-medium">{userEmail || "Loading..."}</p>
             </div>
           )}
         </div>
