@@ -11,14 +11,19 @@ const Index = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [userEmail, setUserEmail] = useState<string>("");
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setIsAuthenticated(!!session);
+      if (session?.user?.email) {
+        setUserEmail(session.user.email);
+      }
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsAuthenticated(!!session);
+      setUserEmail(session?.user?.email || "");
     });
 
     return () => subscription.unsubscribe();
@@ -69,7 +74,7 @@ const Index = () => {
           {isAuthenticated && (
             <Avatar className="h-8 w-8">
               <div className="bg-blue-500 text-white w-full h-full flex items-center justify-center">
-                S
+                {userEmail ? userEmail[0].toUpperCase() : "?"}
               </div>
             </Avatar>
           )}
