@@ -17,19 +17,28 @@ const APIPlayground = () => {
   const validateApiKey = async (key: string) => {
     const { data, error } = await supabase
       .from('api_key')
-      .select('value')
-      .eq('value', key);
+      .select('value, usage, request_limit')
+      .eq('value', key)
+      .single();
     
     if (error) {
       console.error('Error validating API key:', error);
-      return false;
+      return { isValid: false, isRateLimited: false };
     }
     
-    return data && data.length > 0;
+    if (!data) {
+      return { isValid: false, isRateLimited: false };
+    }
+
+    // Check if usage exceeds limit
+    if (data.usage >= data.request_limit) {
+      return { isValid: true, isRateLimited: true };
+    }
+    
+    return { isValid: true, isRateLimited: false };
   };
 
   const incrementUsageCount = async (key: string) => {
-    // First get the current usage count
     const { data: currentData, error: fetchError } = await supabase
       .from('api_key')
       .select('usage')
@@ -41,7 +50,6 @@ const APIPlayground = () => {
       return;
     }
 
-    // Then increment it by 1
     const { error: updateError } = await supabase
       .from('api_key')
       .update({ usage: (currentData?.usage || 0) + 1 })
@@ -65,11 +73,22 @@ const APIPlayground = () => {
       return;
     }
 
-    const isValidKey = await validateApiKey(apiKey);
-    if (!isValidKey) {
+    const { isValid, isRateLimited } = await validateApiKey(apiKey);
+    
+    if (!isValid) {
       toast({
         title: "Error",
         description: "Invalid API key",
+        variant: "destructive",
+        duration: 3000,
+      });
+      return;
+    }
+
+    if (isRateLimited) {
+      toast({
+        title: "Rate Limit Exceeded",
+        description: "You have reached your API request limit",
         variant: "destructive",
         duration: 3000,
       });
