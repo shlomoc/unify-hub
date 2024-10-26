@@ -26,7 +26,12 @@ export const Sidebar = () => {
   const handleLogout = async () => {
     try {
       await supabase.auth.signOut();
-      navigate("/");
+      setUserEmail("");
+      navigate("/login");
+      toast({
+        title: "Success",
+        description: "Signed out successfully",
+      });
     } catch (error) {
       toast({
         title: "Error",
