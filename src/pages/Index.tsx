@@ -33,7 +33,9 @@ const Index = () => {
     if (isAuthenticated) {
       try {
         await supabase.auth.signOut();
-        navigate("/");
+        setIsAuthenticated(false);
+        setUserEmail("");
+        navigate("/login");
         toast({
           title: "Success",
           description: "Signed out successfully",
