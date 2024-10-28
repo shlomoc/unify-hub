@@ -55,12 +55,12 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white flex flex-col">
       {/* Navigation */}
-      <nav className="flex justify-between items-center p-4 max-w-7xl mx-auto">
-        <div className="flex items-center gap-2">
+      <nav className="flex justify-between items-center p-6 max-w-7xl w-full mx-auto">
+        <div className="flex items-center gap-4">
           <Github className="w-6 h-6" />
-          <span className="font-semibold">Dani Github Analyzer</span>
+          <span className="font-semibold text-lg">Dani Github Analyzer</span>
         </div>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-8">
           <a href="#features" className="text-gray-600 hover:text-gray-900">Features</a>
           <a href="#pricing" className="text-gray-600 hover:text-gray-900">Pricing</a>
           <a href="#about" className="text-gray-600 hover:text-gray-900">About</a>
