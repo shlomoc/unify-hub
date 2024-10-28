@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Github, Star, GitPullRequest, RefreshCw } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
@@ -53,7 +53,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white flex flex-col">
       {/* Navigation */}
       <nav className="flex justify-between items-center p-4 max-w-7xl mx-auto">
         <div className="flex items-center gap-2">
@@ -147,6 +147,16 @@ const Index = () => {
           </Card>
         </div>
       </section>
+
+      <footer className="mt-auto border-t py-4 px-8">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <p className="text-gray-600">© 2024 Dani Github Analyzer. All rights reserved.</p>
+          <div className="space-x-6">
+            <Link to="/terms" className="text-gray-600 hover:text-gray-900">Terms of Service</Link>
+            <Link to="/privacy" className="text-gray-600 hover:text-gray-900">Privacy</Link>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
