@@ -55,38 +55,34 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white flex flex-col">
       {/* Navigation */}
-      <nav className="flex justify-between items-center p-6 max-w-7xl w-full mx-auto">
-        <div className="flex items-center gap-4">
+      <nav className="flex justify-between items-center px-6 py-4 max-w-7xl w-full mx-auto">
+        <div className="flex items-center gap-2">
           <Github className="w-6 h-6" />
-          <span className="font-semibold text-lg">Dani Github Analyzer</span>
+          <span className="font-medium">Dani Github Analyzer</span>
         </div>
-        <div className="flex items-center gap-8">
-          <a href="#features" className="text-gray-600 hover:text-gray-900">Features</a>
-          <a href="#pricing" className="text-gray-600 hover:text-gray-900">Pricing</a>
-          <a href="#about" className="text-gray-600 hover:text-gray-900">About</a>
+        <div className="flex items-center gap-6">
+          <a href="#features" className="text-gray-700 hover:text-gray-900 text-sm">Features</a>
+          <a href="#pricing" className="text-gray-700 hover:text-gray-900 text-sm">Pricing</a>
+          <a href="#about" className="text-gray-700 hover:text-gray-900 text-sm">About</a>
           {isAuthenticated && (
             <Button 
               variant="ghost" 
-              className="text-gray-600 hover:text-gray-900"
+              className="text-gray-700 hover:text-gray-900 text-sm"
               onClick={() => navigate("/dashboard")}
             >
-              Dashboard
+              Dashboards
             </Button>
           )}
-          {isAuthenticated && (
-            <Avatar className="h-8 w-8">
-              <div className="bg-blue-500 text-white w-full h-full flex items-center justify-center">
-                {userEmail ? userEmail[0].toUpperCase() : "?"}
-              </div>
-            </Avatar>
-          )}
-          <Button variant="ghost" onClick={handleAuthAction}>
+          <Button 
+            variant="ghost" 
+            className="text-emerald-600 hover:text-emerald-700 font-medium text-sm"
+            onClick={handleAuthAction}
+          >
             {isAuthenticated ? "Sign Out" : "Sign In"}
           </Button>
         </div>
       </nav>
 
-      {/* Hero Section */}
       <section className="text-center py-20 px-4">
         <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-blue-500 via-cyan-400 to-teal-400 text-transparent bg-clip-text">
           Unlock GitHub Insights with Dani
