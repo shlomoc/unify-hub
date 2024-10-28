@@ -2,6 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Eye, Copy, Pencil, Trash2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
+/**
+ * Interface representing an API key with its properties.
+ */
 interface APIKey {
   id: string;
   name: string;
@@ -10,15 +13,29 @@ interface APIKey {
   request_limit: number;
 }
 
+/**
+ * Props for the APIKeyRow component.
+ */
 interface APIKeyRowProps {
   apiKey: APIKey;
   onEdit: (key: APIKey) => void;
   onDelete: (id: string) => void;
 }
 
+/**
+ * Component that displays a single API key row with actions.
+ * 
+ * @component
+ * @param {APIKeyRowProps} props - The component props.
+ * @returns {JSX.Element} A table row containing API key information and action buttons.
+ */
 export const APIKeyRow = ({ apiKey, onEdit, onDelete }: APIKeyRowProps) => {
   const { toast } = useToast();
 
+  /**
+   * Handles the view action for the API key.
+   * Shows the full API key value in a toast message.
+   */
   const handleView = () => {
     toast({
       title: "API Key",
@@ -27,6 +44,10 @@ export const APIKeyRow = ({ apiKey, onEdit, onDelete }: APIKeyRowProps) => {
     });
   };
 
+  /**
+   * Handles copying the API key to clipboard.
+   * Shows a success or error toast based on the operation result.
+   */
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(apiKey.value);

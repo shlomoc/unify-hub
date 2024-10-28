@@ -1,3 +1,10 @@
+/**
+ * Supabase client configuration and initialization.
+ * Creates and exports a Supabase client instance using environment variables.
+ * 
+ * @throws {Error} If required environment variables are missing.
+ */
+
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;

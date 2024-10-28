@@ -2,6 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
+/**
+ * Props for the CreateKeyDialog component.
+ */
 interface CreateKeyDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
@@ -12,6 +15,13 @@ interface CreateKeyDialogProps {
   onCreateKey: () => void;
 }
 
+/**
+ * Dialog component for creating a new API key.
+ * 
+ * @component
+ * @param {CreateKeyDialogProps} props - The component props.
+ * @returns {JSX.Element} A dialog for creating new API keys.
+ */
 export const CreateKeyDialog = ({
   isOpen,
   onOpenChange,
