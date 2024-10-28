@@ -1,71 +1,102 @@
-# Welcome to your GPT Engineer project
+# Dani Github Analyzer
 
-## Project info
+A modern web application for analyzing GitHub repositories, built with React, TypeScript, and Supabase. The application provides insights into repositories through a user-friendly interface with API key management capabilities.
 
-**URL**: https://run.gptengineer.app/projects/51dcb65e-2d2b-4913-9fce-51c12cd18529/improve
+## Features
 
-## How can I edit this code?
+- **GitHub Repository Analysis**: Fetch and analyze README content from any public GitHub repository
+- **API Key Management**: Create, view, and manage API keys with usage limits
+- **Modern UI**: Built with shadcn/ui components and Tailwind CSS
+- **Authentication**: Secure user authentication powered by Supabase
+- **Responsive Design**: Fully responsive layout that works on all devices
 
-There are several ways of editing your application.
+## Project Structure
 
-**Use GPT Engineer**
-
-Simply visit the GPT Engineer project at [GPT Engineer](https://gptengineer.app/projects/51dcb65e-2d2b-4913-9fce-51c12cd18529/improve) and start prompting.
-
-Changes made via gptengineer.app will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in the GPT Engineer UI.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+src/
+├── components/         # React components
+│   ├── api-key/       # API key management components
+│   ├── ui/            # shadcn/ui components
+│   └── Sidebar.tsx    # Main navigation sidebar
+├── lib/               # Utility libraries
+├── pages/             # Page components
+└── utils/             # Utility functions
 ```
 
-**Edit a file directly in GitHub**
+## Prerequisites
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Before you begin, ensure you have:
+- Node.js (v16 or higher)
+- npm or bun package manager
+- A Supabase account and project
 
-**Use GitHub Codespaces**
+## Environment Setup
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Create a `.env` file in the root directory with the following variables:
 
-## What technologies are used for this project?
+```
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
-This project is built with .
+## Installation
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd <repository-name>
+```
 
-## How can I deploy this project?
+2. Install dependencies:
+```bash
+npm install
+# or
+bun install
+```
 
-All GPT Engineer projects can be deployed directly via the GPT Engineer app.
+3. Start the development server:
+```bash
+npm run dev
+# or
+bun dev
+```
 
-Simply visit your project at [GPT Engineer](https://gptengineer.app/projects/51dcb65e-2d2b-4913-9fce-51c12cd18529/improve) and click on Share -> Publish.
+The application will be available at `http://localhost:5173`
 
-## I want to use a custom domain - is that possible?
+## Key Features and Usage
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.gptengineer.app/tips-tricks/custom-domain/)
+### Authentication
+- Users can sign in using email/password
+- Protected routes ensure secure access to dashboard and API playground
+
+### Dashboard
+- View and manage API keys
+- Monitor usage statistics
+- Create new API keys with custom limits
+
+### API Playground
+- Test GitHub repository analysis
+- Input repository URLs to fetch README content
+- View formatted results in real-time
+
+## Technologies Used
+
+- **Frontend Framework**: React with TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui
+- **Backend/Auth**: Supabase
+- **State Management**: TanStack Query
+- **Icons**: Lucide React
+- **Build Tool**: Vite
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License.
